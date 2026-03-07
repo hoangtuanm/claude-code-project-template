@@ -59,3 +59,18 @@ After every successful `/opsx:archive`, **agents must create a git commit and se
 6. Verify: `git log --oneline -1 && git tag -l 'v*'`
 
 **Rollback:** `git checkout vX.Y.Z` restores any checkpoint instantly.
+
+---
+
+## 4. Modular Monolith Architecture
+
+All new code MUST follow the **Modular Monolith** pattern: a single repository and deployable unit with strictly decoupled, domain-driven internal modules.
+
+**Full specification:** [`openspec/specs/architecture/spec.md`](openspec/specs/architecture/spec.md)
+
+**Key rules:**
+- Business logic lives in `src/modules/<name>/` with `domain/`, `infra/`, `ui/`, `index.ts`, and `README.md`
+- Cross-cutting code lives in `src/shared/`
+- Modules NEVER import from each other's internals — only through `index.ts` or `shared/` contracts
+- Every new module MUST have a corresponding `openspec/specs/<name>/spec.md`
+- Agents MUST read a module's `README.md` before editing its code
