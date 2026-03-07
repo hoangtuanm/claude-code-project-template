@@ -1,0 +1,31 @@
+# OpenSpec Configuration
+# The Single Source of Truth for the project.
+
+version: 1.0
+
+# Define workflows
+workflows:
+  spec-driven:
+    description: "Standard workflow for implementing spec driven changes"
+    phases:
+      - name: "proposal"
+        path: "proposal.md"
+        description: "Initial proposal and scope of the change"
+      - name: "design"
+        path: "design.md"
+        description: "Technical design and decisions"
+      - name: "specs"
+        path: "specs/**/*.md"
+        description: "Component and feature specifications"
+      - name: "tasks"
+        path: "tasks.md"
+        description: "Implementation checklist"
+
+# Define default workflow
+default_workflow: spec-driven
+
+# Agent Settings
+agents:
+  primary: "antigravity"
+  fallback: "claude-code"
+  strict_sync: true
