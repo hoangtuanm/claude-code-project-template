@@ -7,18 +7,30 @@
 
 ## 1. Skill Discovery First
 
-Before initiating any complex spec or change, **agents must discover their capabilities**.
+Before initiating any spec or change, **agents must verify existing skills and discover new capabilities**.
 
-**Rule:** Use `skills/shared/find-skills/SKILL.md` to search the open agent ecosystem at [skills.sh](https://skills.sh/). If suitable skills are found, install them into `skills/shared/` and symlink to both `.agent/skills/` and `.claude/skills/` before crafting a `/opsx:propose`.
+**Rule:** Always check `skills/shared/` for existing relevant skills first. If no suitable skill exists locally, use `skills/shared/find-skills/SKILL.md` to search the open agent ecosystem at [skills.sh](https://skills.sh/). When installing, prioritize the **highest-rated and most trustworthy** skills — not just any relevant match.
 
 **Flow:**
-1. User requests a complex feature or change
-2. Agent invokes the `find-skills` skill to search for relevant capabilities
-3. If a matching skill exists → install to `skills/shared/`, create symlinks
-4. Then proceed with `/opsx:propose` leveraging the new skill
-5. If no matching skill → proceed with `/opsx:propose` using existing capabilities
+1. User requests a feature or change
+2. Agent checks `skills/shared/` for existing relevant skills
+3. If a suitable skill exists locally → use it, proceed with `/opsx:propose`
+4. If no suitable local skill → invoke `find-skills` to search [skills.sh](https://skills.sh/)
+5. Evaluate candidates by trust signals (see table below)
+6. Install ONLY the highest-rated, most trustworthy match → `skills/shared/`, symlink to both `.agent/skills/` and `.claude/skills/`
+7. Proceed with `/opsx:propose` leveraging the skill
+8. If no suitable skill found → proceed using existing agent capabilities
 
-**Why:** Avoid reinventing the wheel. The agent ecosystem evolves constantly — always check before building from scratch.
+**Trust signals (evaluate before installing):**
+
+| Signal | Source | Preferred |
+|---|---|---|
+| Security risk (Gen) | `npx skills add --list` output | Safe or Low Risk |
+| Socket alerts | `npx skills add --list` output | 0 alerts |
+| Snyk risk | `npx skills add --list` output | Low Risk |
+| Source organization | skills.sh page | Verified orgs (e.g., `github`, `vercel-labs`) |
+
+**Why:** Avoid reinventing the wheel, but also avoid introducing untrusted capabilities. The agent ecosystem evolves constantly — always check before building from scratch, but vet quality before installing.
 
 ---
 
