@@ -86,3 +86,35 @@ All new code MUST follow the **Modular Monolith** pattern: a single repository a
 - Modules NEVER import from each other's internals — only through `index.ts` or `shared/` contracts
 - Every new module MUST have a corresponding `openspec/specs/<name>/spec.md`
 - Agents MUST read a module's `README.md` before editing its code
+
+---
+
+## 5. Architectural Diagrams for Modules
+
+Every module MUST include production-grade ASCII diagrams generated via the `plantuml-ascii` skill. **Always use Unicode output (`-utxt`)** for box-drawing characters and superior visual quality.
+
+**Required diagrams (in `src/modules/<name>/diagrams/`):**
+
+| Diagram | File | Type | Purpose |
+|---|---|---|---|
+| Module structure | `module.puml` | Component | Shows domain/infra/ui layers and their relationships |
+| Domain entities | `entities.puml` | Class | Key entities, their attributes, and relationships |
+
+**Optional diagrams (when applicable):**
+
+| Diagram | File | Type | When to include |
+|---|---|---|---|
+| Data flow | `data-flow.puml` | Sequence | Module has complex request/response flows |
+| Entity lifecycle | `states.puml` | State | Entities have distinct state transitions |
+| Business process | `process.puml` | Activity | Complex decision trees or workflows |
+
+**Generation command:**
+```bash
+plantuml -utxt diagrams/*.puml
+```
+
+**Rules:**
+- Source files (`.puml`) and output files (`.utxt`) are both version-controlled
+- Key diagrams MUST be embedded in the module's `README.md` under the **Architecture** and **Key Entities** sections
+- Keep diagrams simple — short labels, minimal nesting — for clean ASCII rendering
+- Update diagrams when module architecture changes
