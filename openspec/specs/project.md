@@ -1,13 +1,13 @@
-# Project Specification: Agent Collaboration
+# Project Specification: Agent Workflow
 
 ## Overview
-This project relies on a dual-agent workflow featuring Antigravity (primary IDE) and Claude Code (CLI/Extension fallback). 
+This project uses a single-agent workflow with Claude Code as the sole AI agent.
 
-## Rules of Collaboration
-- **Antigravity-First Rules**: Antigravity is the primary driver for major IDE-centric refactors, system planning, and holistic cross-file changes.
-- **Claude Fallback**: Claude Code is utilized for quick CLI-based iterations, hyper-focused file fixes, or extension-based tasks.
-- **Seamless Handoffs**: Smooth transitions between models are guaranteed by OpenSpec. The working state must ALWAYS reside in `openspec/`.
+## Rules of Operation
+- **Claude Code** is the primary and only agent. It handles all tasks: system planning, holistic cross-file refactors, focused file edits, and CLI-based iterations.
+- **Seamless Session Continuity**: Continuity across sessions is guaranteed by OpenSpec. The working state MUST always reside in `openspec/`. Claude Code reads `openspec/` at the start of every session to restore full context without additional prompting.
 
 ## SSOT (Single Source of Truth)
 - All context lives in `openspec/config.yaml` and `openspec/specs/`.
-- Hand-offs between Antigravity and Claude require zero additional prompting if the `openspec/` directory is accurately maintained. Both agents are instructed by `AGENTS.md` and `CLAUDE.md` to parse `openspec/` upon starting a task.
+- Claude Code is instructed by `CLAUDE.md` to parse `openspec/` upon starting any task.
+- Cross-session state is maintained exclusively through `openspec/changes/` (active and archived) and `openspec/specs/`. Never through ad-hoc files outside this structure.

@@ -26,6 +26,5 @@ default_workflow: spec-driven
 
 # Agent Settings
 agents:
-  primary: "antigravity"
-  fallback: "claude-code"
+  primary: "claude-code"
   strict_sync: true

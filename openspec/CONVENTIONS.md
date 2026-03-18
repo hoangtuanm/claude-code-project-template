@@ -1,7 +1,6 @@
 # Agent Conventions
 
-> Universal behavioral rules for all AI agents working on this project.
-> Both Antigravity and Claude Code MUST follow these conventions.
+> Universal behavioral rules for Claude Code working on this project.
 
 ---
 
@@ -17,7 +16,7 @@ Before initiating any spec or change, **agents must verify existing skills and d
 3. If a suitable skill exists locally → use it, proceed with `/opsx:propose`
 4. If no suitable local skill → invoke `find-skills` to search [skills.sh](https://skills.sh/)
 5. Evaluate candidates by trust signals (see table below)
-6. Install ONLY the highest-rated, most trustworthy match → `skills/shared/`, symlink to both `.agent/skills/` and `.claude/skills/`
+6. Install ONLY the highest-rated, most trustworthy match → `skills/shared/`, symlink to `.claude/skills/`
 7. Proceed with `/opsx:propose` leveraging the skill
 8. If no suitable skill found → proceed using existing agent capabilities
 
@@ -36,14 +35,14 @@ Before initiating any spec or change, **agents must verify existing skills and d
 
 ## 2. Post-OpenSpec Update Recovery
 
-After running `openspec init`, **always execute `./scripts/setup-symlinks.sh`** to restore the shared skill symlinks for all agents.
+After running `openspec init`, **always execute `./scripts/setup-symlinks.sh`** to restore the shared skill symlinks for Claude Code.
 
-**Why:** `openspec init` regenerates `.agent/skills/` with real directories, overwriting our symlinks to `skills/shared/`. The recovery script moves skills back to the shared directory and re-creates symlinks for both Antigravity and Claude Code.
+**Why:** `openspec init` regenerates `.claude/skills/` with real directories, overwriting our symlinks to `skills/shared/`. The recovery script re-creates symlinks pointing back to the shared directory.
 
 **Flow:**
-1. Run `openspec init --tools antigravity`
+1. Run `openspec init`
 2. Run `./scripts/setup-symlinks.sh`
-3. Verify with `ls -la .agent/skills/` — all entries should be symlinks
+3. Verify with `ls -la .claude/skills/` — all entries should be symlinks
 
 ---
 
