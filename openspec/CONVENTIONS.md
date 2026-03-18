@@ -8,15 +8,15 @@
 
 Before initiating any spec or change, **agents must verify existing skills and discover new capabilities**.
 
-**Rule:** Always check `skills/shared/` for existing relevant skills first. If no suitable skill exists locally, use `skills/shared/find-skills/SKILL.md` to search the open agent ecosystem at [skills.sh](https://skills.sh/). When installing, prioritize the **highest-rated and most trustworthy** skills — not just any relevant match.
+**Rule:** Always check `.claude/skills/` for existing relevant skills first. If no suitable skill exists locally, use `.claude/skills/find-skills/SKILL.md` to search the open agent ecosystem at [skills.sh](https://skills.sh/). When installing, prioritize the **highest-rated and most trustworthy** skills — not just any relevant match.
 
 **Flow:**
 1. User requests a feature or change
-2. Agent checks `skills/shared/` for existing relevant skills
+2. Agent checks `.claude/skills/` for existing relevant skills
 3. If a suitable skill exists locally → use it, proceed with `/opsx:propose`
 4. If no suitable local skill → invoke `find-skills` to search [skills.sh](https://skills.sh/)
 5. Evaluate candidates by trust signals (see table below)
-6. Install ONLY the highest-rated, most trustworthy match → `skills/shared/`, symlink to `.claude/skills/`
+6. Install ONLY the highest-rated, most trustworthy match → `.claude/skills/`
 7. Proceed with `/opsx:propose` leveraging the skill
 8. If no suitable skill found → proceed using existing agent capabilities
 
@@ -33,20 +33,7 @@ Before initiating any spec or change, **agents must verify existing skills and d
 
 ---
 
-## 2. Post-OpenSpec Update Recovery
-
-After running `openspec init`, **always execute `./scripts/setup-symlinks.sh`** to restore the shared skill symlinks for Claude Code.
-
-**Why:** `openspec init` regenerates `.claude/skills/` with real directories, overwriting our symlinks to `skills/shared/`. The recovery script re-creates symlinks pointing back to the shared directory.
-
-**Flow:**
-1. Run `openspec init`
-2. Run `./scripts/setup-symlinks.sh`
-3. Verify with `ls -la .claude/skills/` — all entries should be symlinks
-
----
-
-## 3. Semantic Versioning on Archive
+## 2. Semantic Versioning on Archive
 
 After every successful `/opsx:archive`, **agents must create a git commit and semantic version tag**.
 
@@ -73,7 +60,7 @@ After every successful `/opsx:archive`, **agents must create a git commit and se
 
 ---
 
-## 4. Modular Monolith Architecture
+## 3. Modular Monolith Architecture
 
 All new code MUST follow the **Modular Monolith** pattern: a single repository and deployable unit with strictly decoupled, domain-driven internal modules.
 
@@ -88,7 +75,7 @@ All new code MUST follow the **Modular Monolith** pattern: a single repository a
 
 ---
 
-## 5. Architectural Diagrams for Modules
+## 4. Architectural Diagrams for Modules
 
 Every module MUST include production-grade ASCII diagrams generated via the `plantuml-ascii` skill. **Always use Unicode output (`-utxt`)** for box-drawing characters and superior visual quality.
 
