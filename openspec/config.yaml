@@ -24,6 +24,10 @@ workflows:
 # Define default workflow
 default_workflow: spec-driven
 
+# Architecture Settings
+architecture:
+  variant: web             # web | expo
+
 # Agent Settings
 agents:
   primary: "claude-code"

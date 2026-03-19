@@ -66,12 +66,46 @@ All new code MUST follow the **Modular Monolith** pattern: a single repository a
 
 **Full specification:** [`openspec/specs/architecture/spec.md`](openspec/specs/architecture/spec.md)
 
-**Key rules:**
-- Business logic lives in `src/modules/<name>/` with `domain/`, `infra/`, `ui/`, `index.ts`, and `README.md`
+**Immutable rules (apply to all stacks):**
 - Cross-cutting code lives in `src/shared/`
 - Modules NEVER import from each other's internals — only through `index.ts` or `shared/` contracts
 - Every new module MUST have a corresponding `openspec/specs/<name>/spec.md`
 - Agents MUST read a module's `README.md` before editing its code
+
+### Variant A — Web / Node / Backend (default)
+
+```
+src/modules/<name>/
+├── domain/       ← entities, use cases, business rules
+├── infra/        ← DB, external APIs, adapters
+├── ui/           ← components scoped to this module
+├── index.ts      ← public API
+└── README.md
+```
+
+### Variant B — React Native / Expo Router
+
+Expo Router owns the `app/` directory for file-based routing. Screens live there (thin — import and render only). All logic lives in `src/modules/`.
+
+```
+app/                        ← Expo Router screens (navigation only)
+  (tabs)/
+    index.tsx               ← imports from src/modules/home
+  _layout.tsx
+
+src/modules/<name>/
+├── components/   ← UI components (not screens)
+├── hooks/        ← business logic as hooks
+├── api/          ← data fetching and mutations
+├── store/        ← local state (Zustand slice, etc.)
+├── types.ts
+├── index.ts      ← public API
+└── README.md
+
+src/shared/       ← design system, utils, shared hooks
+```
+
+**When starting a project, declare the variant in `openspec/config.yaml` under `architecture.variant`** so all future Claude sessions apply the correct structure without ambiguity.
 
 ---
 
